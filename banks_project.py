@@ -26,7 +26,12 @@ def load_to_db(df, sql_connection, table_name):
     pass
 
 def log_process(message):
-    pass
+    timestamp_format = '%Y-%h-%d-%H:%M:%S'
+    timestamp = datetime.strftime(timestamp_format)
+    now = datetime.now()
+    with open(log_file, 'a') as f:
+        print(f'{timestamp} : {message}')
+
 
 def run_query(query_statement, sql_connection):
     pass
