@@ -14,7 +14,20 @@ log_file = 'code_log.txt'
 
 
 def extract(url, table_attribute):
-    pass
+    html_page = requests.get(url).text
+    data = BeautifulSoup(html_page, 'html.parser')
+    table = data.fin_all('tbody')
+    rows = table[2].find_all('tr')
+    for row in rows:
+        cols = row.find_all('td')
+        if len(cols) != 0:
+            t_dict = {
+                'Name': cols[0].a.contents,
+                'MC_USD_Billion' : cols[2].contents
+            }
+            df1 = pd.DataFrame(t_dict)
+            df = pd.concat([table_attribute, df1], ignore_index=True)
+    return df
 
 def transform(df, csv_path):
     return df
